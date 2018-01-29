@@ -95,17 +95,15 @@ func main() {
 	doc, err := html.Parse(resp.Body)
 	check(err)
 
-	// Find an element
+	// Find an element data
 	elementData := getElementById(doc, os.Getenv("BLOCK_ID"))
 
 	// First table data
 	childFlag, err := strconv.ParseBool(os.Getenv("FIRST_CHILD_DATA"))
 	check(err)
-	if (childFlag) {
-		firstTableData := renderNode(elementData.FirstChild.NextSibling)
-		saveData(firstTableData)
-	} else {
-		saveData(renderNode(elementData))
+	if childFlag {
+		elementData = elementData.FirstChild.NextSibling
 	}
 
+	saveData(renderNode(elementData))
 }
